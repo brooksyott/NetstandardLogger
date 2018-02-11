@@ -29,7 +29,6 @@ namespace Peamel.BasicLogger
         private Object _logLock = new Object();
         private long _maxFileSize = 0;
         private FileInfo _logFileInfo = null;
-        
 
         // Keeps tracks of the log levels based on the tag
         private Dictionary<String, LoggerLevels> _tagLogLevel;
@@ -150,13 +149,19 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
-                return;
+                if (_tagLogLevel[DEFAULT].TraceOn == false)
+                    return;
             }
-            if (_tagLogLevel[tag].TraceOn == false)
+            else
             {
-                return;
+                // The tag exists, check if the desired level is on
+                if (_tagLogLevel[tag].TraceOn == false)
+                {
+                    return;
+                }
             }
 
             WriteFormattedLog(BASICLOGGERLEVELS.TRACE.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
@@ -168,13 +173,20 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+
+            // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
-                return;
+                if (_tagLogLevel[DEFAULT].DebugOn == false)
+                    return;
             }
-            if (_tagLogLevel[tag].DebugOn == false)
+            else
             {
-                return;
+                // The tag exists, check if the desired level is on
+                if (_tagLogLevel[tag].DebugOn == false)
+                {
+                    return;
+                }
             }
 
             WriteFormattedLog(BASICLOGGERLEVELS.DEBUG.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
@@ -186,13 +198,19 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
-                return;
+                if (_tagLogLevel[DEFAULT].InfoOn == false)
+                    return;
             }
-            if (_tagLogLevel[tag].InfoOn == false)
+            else
             {
-                return;
+                // The tag exists, check if the desired level is on
+                if (_tagLogLevel[tag].InfoOn == false)
+                {
+                    return;
+                }
             }
 
             WriteFormattedLog(BASICLOGGERLEVELS.INFO.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
@@ -204,13 +222,19 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
-                return;
+                if (_tagLogLevel[DEFAULT].WarnOn == false)
+                    return;
             }
-            if (_tagLogLevel[tag].WarnOn == false)
+            else
             {
-                return;
+                // The tag exists, check if the desired level is on
+                if (_tagLogLevel[tag].WarnOn == false)
+                {
+                    return;
+                }
             }
 
             WriteFormattedLog(BASICLOGGERLEVELS.WARN.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
@@ -222,13 +246,19 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
-                return;
+                if (_tagLogLevel[DEFAULT].ErrorOn == false)
+                    return;
             }
-            if (_tagLogLevel[tag].ErrorOn == false)
+            else
             {
-                return;
+                // The tag exists, check if the desired level is on
+                if (_tagLogLevel[tag].ErrorOn == false)
+                {
+                    return;
+                }
             }
 
             WriteFormattedLog(BASICLOGGERLEVELS.ERROR.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
@@ -240,13 +270,19 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
-                return;
+                if (_tagLogLevel[DEFAULT].FatalOn == false)
+                    return;
             }
-            if (_tagLogLevel[tag].FatalOn == false)
+            else
             {
-                return;
+                // The tag exists, check if the desired level is on
+                if (_tagLogLevel[tag].FatalOn == false)
+                {
+                    return;
+                }
             }
 
             WriteFormattedLog(BASICLOGGERLEVELS.FATAL.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
@@ -262,9 +298,9 @@ namespace Peamel.BasicLogger
                 {
                     sw.WriteLine(logString);
                 }
-
-                RotateLogs();
             }
+
+            RotateLogs();
         }
 
         private void WriteFormattedLog(String level, String logstring,

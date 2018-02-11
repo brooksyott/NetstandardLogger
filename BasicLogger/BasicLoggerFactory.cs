@@ -9,7 +9,7 @@ namespace Peamel.BasicLogger
     public class BasicLoggerFactory
     {
         private static Dictionary<String, ILogger> _loggers = new Dictionary<string, ILogger>();
-        private const String _defaultLoggerName = Logger.DEFAULT;
+        private const String _defaultLoggerName = "DEFAULT";
         static private Object lockObject = new Object();
 
         /// <summary>
