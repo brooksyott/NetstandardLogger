@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <RootNamespace>Peamel.BasicLogger</RootNamespace>
+    <AssemblyName>PeamelBasicLogger</AssemblyName>
+    <Version>0.1.1-alpha</Version>
+    <Authors>Dave Brooks</Authors>
+    <Company />
+    <Product>BasicLogger</Product>
+    <Description>A basic netstandard logger</Description>
+    <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
+    <PackageReleaseNotes>Initial protoype of a netstandard logger</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>netstandard, logger, peamel</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+  </ItemGroup>
+
+</Project>
