@@ -372,14 +372,11 @@ namespace Peamel.BasicLogger
                         File.Move(_fileName, newFileName);
                         if (!File.Exists(_fileName))
                         {
-                            lock (_logLock)
+                            using (var s = File.Create(_fileName))
                             {
-                                using (var s = File.Create(_fileName))
-                                {
 
-                                }
-                                _logFileInfo = new FileInfo(_fileName);
                             }
+                            _logFileInfo = new FileInfo(_fileName);
                         }
                     }
                 } catch

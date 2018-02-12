@@ -4,15 +4,15 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>Peamel.BasicLogger</RootNamespace>
     <AssemblyName>PeamelBasicLogger</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Dave Brooks</Authors>
     <Company />
     <Product>BasicLogger</Product>
     <Description>A basic netstandard logger</Description>
     <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
-    <PackageReleaseNotes>Initial protoype of a netstandard logger</PackageReleaseNotes>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
+    <PackageReleaseNotes>Fixed bug #1. Multiple locks in rotate log file.</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>netstandard, logger, peamel, xamarin forms</PackageTags>
   </PropertyGroup>

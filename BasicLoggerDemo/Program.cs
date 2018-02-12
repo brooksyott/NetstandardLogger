@@ -79,11 +79,11 @@ namespace BasicLoggerDemo
 
             // Should not generate any logs, since a logger has not been set
             // However, it should also not generate a null pointer exception
-            _log = BasicLoggerFactory.CreateLogger($"c:\\temp\\BasicLogger.log");
+            _log = BasicLoggerFactory.CreateLogger($".\\BasicLogger.log");
             _log = BasicLoggerFactory.GetLogger();   // gets the default logger
 
             // Create a second logger, different file name
-            _log2 = BasicLoggerFactory.CreateLogger("SECONDLOGGER", $"c:\\temp\\BasicLogger2.log");
+            _log2 = BasicLoggerFactory.CreateLogger("SECONDLOGGER", $".\\BasicLogger2.log");
 
             _log.Raw("***  GenerateLogs should not generate logs");
 
@@ -93,7 +93,7 @@ namespace BasicLoggerDemo
 
             // Attach the logger to the class
             _log.Raw("***  GenerateLogs attached to the logger, should generate logs");
-            //classToLog.UpdateLogger(_log);
+            classToLog.UpdateLogger(_log);
 
             // It should now generate logs from info and above
             // Info is the default logging level
