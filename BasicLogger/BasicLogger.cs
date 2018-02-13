@@ -25,10 +25,10 @@ namespace Peamel.BasicLogger
         private string DatetimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
         private const string Title = "Date Time\tThread\tLevel\tFile\tMethod\tLine\tLog";
         private string _fileName;
-        private const String _defaultTag = DEFAULT;
         private Object _logLock = new Object();
         private long _maxFileSize = 0;
         private FileInfo _logFileInfo = null;
+        private BasicLoggerTag _defaultTag = new BasicLoggerTag(DEFAULT);
 
         // Keeps tracks of the log levels based on the tag
         private Dictionary<String, LoggerLevels> _tagLogLevel;
@@ -123,8 +123,10 @@ namespace Peamel.BasicLogger
             }
         }
 
-        public void SetLogLevel(BASICLOGGERLEVELS loglevel, String tag)
+        public void SetLogLevel(BASICLOGGERLEVELS loglevel, BasicLoggerTag tagged)
         {
+            String tag = tagged.TagName;
+
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
                 // If there is no tag, create it
@@ -133,8 +135,15 @@ namespace Peamel.BasicLogger
             _tagLogLevel[tag].SetLogLevel(loglevel);
         }
 
-        public BASICLOGGERLEVELS GetLogLevel(String tag = "DEFAULT")
+        public BASICLOGGERLEVELS GetLogLevel()
         {
+            return GetLogLevel(_defaultTag);
+        }
+
+        public BASICLOGGERLEVELS GetLogLevel(BasicLoggerTag tagged)
+        {
+            String tag = tagged.TagName;
+
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
                 // If there is no tag, create it
@@ -144,11 +153,22 @@ namespace Peamel.BasicLogger
         }
 
         // This is used if the user specificies a tag to be used
-        public void Trace(String logstring, String tag = _defaultTag,
+        public void Trace(String logstring, 
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            Trace(_defaultTag, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Trace(BasicLoggerTag tagged, String logstring, 
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            String tag = tagged.TagName;
+
             // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
@@ -168,11 +188,21 @@ namespace Peamel.BasicLogger
         }
 
         // This is used if the user specificies a tag to be used
-        public void Debug(String logstring, String tag = _defaultTag,
+        public void Debug(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
+            Debug(_defaultTag, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Debug(BasicLoggerTag tagged, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            String tag = tagged.TagName;
 
             // If the tag does not exist, then we use the default loggin level
             if (_tagLogLevel.ContainsKey(tag) == false)
@@ -193,12 +223,23 @@ namespace Peamel.BasicLogger
         }
 
         // This is used if the user specificies a tag to be used
-        public void Info(String logstring, String tag = _defaultTag,
+        public void Info(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Info(_defaultTag, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+
+        // This is used if the user specificies a tag to be used
+        public void Info(BasicLoggerTag tagged, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             // If the tag does not exist, then we use the default loggin level
+            String tag = tagged.TagName;
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
                 if (_tagLogLevel[DEFAULT].InfoOn == false)
@@ -217,12 +258,23 @@ namespace Peamel.BasicLogger
         }
 
         // This is used if the user specificies a tag to be used
-        public void Warn(String logstring, String tag = _defaultTag,
+        public void Warn(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Warn(_defaultTag, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+
+        // This is used if the user specificies a tag to be used
+        public void Warn(BasicLoggerTag tagged, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             // If the tag does not exist, then we use the default loggin level
+            String tag = tagged.TagName;
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
                 if (_tagLogLevel[DEFAULT].WarnOn == false)
@@ -241,12 +293,23 @@ namespace Peamel.BasicLogger
         }
 
         // This is used if the user specificies a tag to be used
-        public void Error(String logstring, String tag = _defaultTag,
+        public void Error(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Error(_defaultTag, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+
+        // This is used if the user specificies a tag to be used
+        public void Error(BasicLoggerTag tagged, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             // If the tag does not exist, then we use the default loggin level
+            String tag = tagged.TagName;
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
                 if (_tagLogLevel[DEFAULT].ErrorOn == false)
@@ -265,12 +328,22 @@ namespace Peamel.BasicLogger
         }
 
         // This is used if the user specificies a tag to be used
-        public void Fatal(String logstring, String tag = _defaultTag,
+        public void Fatal(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Fatal(_defaultTag, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Fatal(BasicLoggerTag tagged, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             // If the tag does not exist, then we use the default loggin level
+            String tag = tagged.TagName;
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
                 if (_tagLogLevel[DEFAULT].FatalOn == false)

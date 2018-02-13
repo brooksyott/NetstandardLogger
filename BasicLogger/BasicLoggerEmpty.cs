@@ -30,22 +30,28 @@ namespace Peamel.BasicLogger
             return;
         }
 
-        public void SetLogLevel(BASICLOGGERLEVELS loglevel, String tag)
+        public void SetLogLevel(BASICLOGGERLEVELS loglevel, BasicLoggerTag tag)
         {
             return;
         }
 
-        public BASICLOGGERLEVELS GetLogLevel(String tag = "DEFAULT")
+        public BASICLOGGERLEVELS GetLogLevel()
         {
             return BASICLOGGERLEVELS.OFF;
         }
+
+        public BASICLOGGERLEVELS GetLogLevel(BasicLoggerTag tagged)
+        {
+            return BASICLOGGERLEVELS.OFF;
+        }
+
 
         public Boolean Changefile(String LogFileName)
         {
             return false;
         }
 
-        public void Trace(String logstring, String tag,
+        public void Trace(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -53,7 +59,7 @@ namespace Peamel.BasicLogger
             return;
         }
 
-        public void Debug(String logstring, String tag ,
+        public void Trace(BasicLoggerTag tag, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -61,7 +67,8 @@ namespace Peamel.BasicLogger
             return;
         }
 
-        public void Info(String logstring, String tag,
+
+        public void Debug(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -69,7 +76,7 @@ namespace Peamel.BasicLogger
             return;
         }
 
-        public void Warn(String logstring, String tag,
+        public void Debug(BasicLoggerTag tag, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -77,7 +84,8 @@ namespace Peamel.BasicLogger
             return;
         }
 
-        public void Error(String logstring, String tag,
+
+        public void Info(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)
@@ -85,7 +93,56 @@ namespace Peamel.BasicLogger
             return;
         }
 
-        public void Fatal(String logstring, String tag,
+        public void Info(BasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Warn(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Warn(BasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Error(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+
+        public void Error(BasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Fatal(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Fatal(BasicLoggerTag tag, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)

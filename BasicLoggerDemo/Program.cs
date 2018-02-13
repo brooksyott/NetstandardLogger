@@ -38,14 +38,14 @@ namespace BasicLoggerDemo
             _log.Fatal("Fatal log");
         }
 
-        public void GenerateLogs(String Tag)
+        public void GenerateLogs(BasicLoggerTag Tag)
         {
-            _log.Trace("Trace log", Tag);
-            _log.Debug("Debug log", Tag);
-            _log.Info("Info log", Tag);
-            _log.Warn("Warning log", Tag);
-            _log.Error("Error log", Tag);
-            _log.Fatal("Fatal log", Tag);
+            _log.Trace(Tag, "Trace log");
+            _log.Debug(Tag, "Debug log");
+            _log.Info(Tag, "Info log");
+            _log.Warn(Tag, "Warning log");
+            _log.Error(Tag, "Error log");
+            _log.Fatal(Tag, "Fatal log");
         }
 
         // Logging should show a different thread ID
@@ -98,16 +98,19 @@ namespace BasicLoggerDemo
             // It should now generate logs from info and above
             // Info is the default logging level
 
+            // Create a tag for the logger
+            BasicLoggerTag tag = new BasicLoggerTag("TAGGED");
+
             _log.Raw("***  Showing use of tags, to customize which logs are generated");
             _log.SetLogLevel(BASICLOGGERLEVELS.WARN);
-            _log.SetLogLevel(BASICLOGGERLEVELS.TRACE, "TAGGED"); // Setting the log level also creates a tag if it doesn't exist
+            _log.SetLogLevel(BASICLOGGERLEVELS.TRACE, tag); // Setting the log level also creates a tag if it doesn't exist
             // Could also create the tag
             //_log.CreateTag("TAGGED");
 
             _log.Raw("***  GenerateLogs with no tag, log level of WARN");
             classToLog.GenerateLogs();
             _log.Raw("***  GenerateLogs with a tag, log level of TRACE");
-            classToLog.GenerateLogs("TAGGED");
+            classToLog.GenerateLogs(tag);
 
             _log.Raw("***  GenerateLogs from a different thread");
             classToLog.GenerateLogsDifferentThread().Wait();
