@@ -4,14 +4,14 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>Peamel.BasicLogger</RootNamespace>
     <AssemblyName>PeamelBasicLogger</AssemblyName>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>Dave Brooks</Authors>
     <Company />
     <Product>BasicLogger</Product>
-    <Description>A basic netstandard logger</Description>
+    <Description>Added creation of the default logging tag, when a name/label is omitted.</Description>
     <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
     <PackageReleaseNotes>Updated to have the tag be a class, to allow the tag to be the first value in the parameter list.</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>netstandard, logger, peamel, xamarin forms</PackageTags>

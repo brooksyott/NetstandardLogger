@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -103,7 +104,19 @@ namespace BasicLoggerDemo
 
             _log.Raw("***  Showing use of tags, to customize which logs are generated");
             _log.SetLogLevel(BASICLOGGERLEVELS.WARN);
+            Stopwatch sw = new Stopwatch();
             _log.SetLogLevel(BASICLOGGERLEVELS.TRACE, tag); // Setting the log level also creates a tag if it doesn't exist
+
+            sw.Start();
+            _log.Info(tag, "Measuring time to log");
+            sw.Stop();
+            _log.Info(tag, "Logging took " + sw.ElapsedMilliseconds + " ms");
+            sw.Reset();
+            sw.Start();
+            _log.Debug(tag, "Measuring time to log when it's off");
+            sw.Stop();
+            _log.Info(tag, "Logging took " + sw.ElapsedMilliseconds + " ms");
+
             // Could also create the tag
             //_log.CreateTag("TAGGED");
 

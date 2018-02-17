@@ -239,6 +239,8 @@ namespace Peamel.BasicLogger
             [CallerLineNumber] int sourceLineNumber = 0)
         {
             // If the tag does not exist, then we use the default loggin level
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             String tag = tagged.TagName;
             if (_tagLogLevel.ContainsKey(tag) == false)
             {
@@ -253,7 +255,6 @@ namespace Peamel.BasicLogger
                     return;
                 }
             }
-
             WriteFormattedLog(BASICLOGGERLEVELS.INFO.ToString(), logstring, memberName, sourceFilePath, sourceLineNumber);
         }
 
@@ -409,9 +410,8 @@ namespace Peamel.BasicLogger
                 sourceLineNumber,
                 logstring);
 
-
             // Writing to the filesystem, so perform a lock
-            lock(_logLock)
+            lock (_logLock)
             {
                 using (StreamWriter sw = File.AppendText(_fileName))
                 {

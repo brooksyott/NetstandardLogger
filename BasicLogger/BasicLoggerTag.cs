@@ -11,6 +11,10 @@ namespace Peamel.BasicLogger
             _tagName = tag;
         }
 
+        public BasicLoggerTag()
+        {
+        }
+
         private String _tagName = "DEFAULT";
         public String TagName
         {
