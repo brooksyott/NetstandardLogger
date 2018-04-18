@@ -388,8 +388,9 @@ namespace Peamel.BasicLogger
             }
 
             // Get the current excecuting thread
-            int tid = TaskScheduler.Current.Id;
-            tid = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            //int? tid = TaskScheduler.Current.Id;
+            //tid = System.Threading.Thread.CurrentThread.ManagedThreadId;
+            int? tid = Task.CurrentId.HasValue ? Task.CurrentId : 0;
 
             // Derive only the filename, not the full path
             String[] filenameArray;
