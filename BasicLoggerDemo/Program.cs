@@ -70,12 +70,18 @@ namespace BasicLoggerDemo
 
     }
 
+
     class Program
     {
         static ILogger _log;
         static ILogger _log2;
         static ILogger _log3;
         static SampleClassToLog classToLog = new SampleClassToLog();
+
+        static void LogHandler(String log)
+        {
+            Console.WriteLine(log);
+        }
 
         static void Main(string[] args)
         {
@@ -86,6 +92,9 @@ namespace BasicLoggerDemo
             // However, it should also not generate a null pointer exception
             _log = BasicLoggerFactory.CreateLogger($".\\BasicLogger.log");
             _log = BasicLoggerFactory.GetLogger();   // gets the default logger
+
+            // Registers a log handler
+            _log.RegisterLogHandler(LogHandler);
 
             // Create a second logger, different file name
             _log2 = BasicLoggerFactory.CreateLogger("SECONDLOGGER", $".\\BasicLogger2.log");
@@ -136,17 +145,16 @@ namespace BasicLoggerDemo
             _log2 = BasicLoggerFactory.GetLogger("SECONDLOGGER");   // gets the second logger
             BasicLoggerEventId eventId = new BasicLoggerEventId(2, "event 2"); 
             _log2.Information(eventId, "This should be in a second log file 1 : " + DateTime.UtcNow.Millisecond);
-            _log2.Info("This should be in a second log file 2 : " + DateTime.UtcNow.Millisecond);
-            _log2.Info("This should be in a second log file 3 : " + DateTime.UtcNow.Millisecond);
-            _log2.Info("This should be in a second log file 4 : " + DateTime.UtcNow.Millisecond);
-            _log2.Info("This should be in a second log file 5 : " + DateTime.UtcNow.Millisecond);
-            _log2.Info("This should be in a second log file 6 : " + DateTime.UtcNow.Millisecond);
+            _log2.Force(BasicLoggerLogLevels.Information, "This should be in a second log file 2 : " + DateTime.UtcNow.Millisecond);
+            _log2.Force(BasicLoggerLogLevels.None, "This should be in a second log file 3 : " + DateTime.UtcNow.Millisecond);
+            _log2.Force(BasicLoggerLogLevels.Information, "This should be in a second log file 4 : " + DateTime.UtcNow.Millisecond);
+            _log2.Force(BasicLoggerLogLevels.Information, "This should be in a second log file 5 : " + DateTime.UtcNow.Millisecond);
+            _log2.Force(BasicLoggerLogLevels.Information, "This should be in a second log file 6 : " + DateTime.UtcNow.Millisecond);
 
             for (int i= 0; i < 50000; i++)
             {
                 _log3.Info("For rotation " + i);
             }
-
         }
     }
 }

@@ -6,9 +6,13 @@ namespace Peamel.BasicLogger
 {
     public class BasicLoggerEventId
     {
-        public BasicLoggerEventId(int id, String name)
+        public BasicLoggerEventId(int? id, String name)
         {
-            Id = id;
+            if (id == null)
+                Id = 0;
+            else
+                Id = id.Value;
+
             Name = name;
         }
 

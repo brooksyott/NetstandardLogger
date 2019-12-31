@@ -35,6 +35,16 @@ namespace Peamel.BasicLogger
             return;
         }
 
+        public Boolean SetLogLevel(String loglevel)
+        {
+            return false;
+        }
+
+        public Boolean SetLogLevel(String loglevel, IBasicLoggerTag tagged)
+        {
+            return false;
+        }
+
         public BASICLOGGERLEVELS GetLogLevel()
         {
             return BASICLOGGERLEVELS.OFF;
@@ -68,6 +78,48 @@ namespace Peamel.BasicLogger
         public Boolean Changefile(String LogFileName)
         {
             return false;
+        }
+
+        public void RegisterLogHandler(Action<string> handler)
+        {
+            return;
+        }
+
+        public void UnRegisterLogHandler(Action<string> handler)
+        {
+            return;
+        }
+
+        public void Force(BasicLoggerLogLevels logLevel, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Force(BasicLoggerLogLevels logLevel, IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Force(BasicLoggerLogLevels logLevel, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Force(BasicLoggerLogLevels logLevel, IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
         }
 
         #region Trace
@@ -155,6 +207,22 @@ namespace Peamel.BasicLogger
             return;
         }
 
+        public void Information(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Information(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
         public void Information(BasicLoggerEventId eventId, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
@@ -182,6 +250,22 @@ namespace Peamel.BasicLogger
         }
 
         public void Warn(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Warning(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            return;
+        }
+
+        public void Warning(IBasicLoggerTag tag, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0)

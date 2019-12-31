@@ -22,7 +22,7 @@ namespace Peamel.BasicLogger
     {
         const String InformationLevel = "INFO";
         const String DebugLevel = "DEBUG";
-        const String WarnLevel = "WARN";
+        const String WarningLevel = "WARN";
         const String TraceLevel = "TRACE";
         const String ErrorLevel = "ERROR";
         const String FatalLevel = "FATAL";
@@ -36,6 +36,18 @@ namespace Peamel.BasicLogger
         private long _maxFileSize = 0;
         private FileInfo _logFileInfo = null;
         private IBasicLoggerTag _defaultTag = new BasicLoggerTag(DEFAULT);
+
+        Action<string> messageTarget;
+
+        public void RegisterLogHandler(Action<string> handler)
+        {
+            messageTarget += handler;
+        }
+
+        public void UnRegisterLogHandler(Action<string> handler)
+        {
+            messageTarget -= handler;
+        }
 
         // Keeps tracks of the log levels based on the tag
         private Dictionary<String, LoggerLevels> _tagLogLevel;
@@ -177,6 +189,23 @@ namespace Peamel.BasicLogger
             _tagLogLevel[tag].SetLogLevel(loglevel);
         }
 
+        public Boolean SetLogLevel(String loglevel)
+        {
+            return SetLogLevel(loglevel, _defaultTag);
+        }
+
+        public Boolean SetLogLevel(String loglevel, IBasicLoggerTag tagged)
+        {
+            String tag = tagged.GetName();
+
+            if (_tagLogLevel.ContainsKey(tag) == false)
+            {
+                // If there is no tag, create it
+                _tagLogLevel[tag] = new LoggerLevels();
+            }
+            return _tagLogLevel[tag].SetLogLevel(loglevel);
+        }
+
         public BasicLoggerLogLevels CurrentLogLevel()
         {
             return CurrentLogLevel(_defaultTag);
@@ -205,6 +234,83 @@ namespace Peamel.BasicLogger
             }
             return BASICLOGGERLEVELS.OFF;
         }
+
+        #region IgnoreLogLevel
+        public void Force(BasicLoggerLogLevels logLevel, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Force(logLevel, _defaultTag, eventId, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Force(BasicLoggerLogLevels logLevel, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Force(logLevel, _defaultTag, null, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Force(BasicLoggerLogLevels logLevel, IBasicLoggerTag tagged, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Force(logLevel, tagged, null, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Force(BasicLoggerLogLevels logLevel, IBasicLoggerTag tagged, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            String logLevelString = String.Empty;
+            switch(logLevel)
+            {
+                case BasicLoggerLogLevels.Debug:
+                    {
+                        logLevelString = DebugLevel;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Error:
+                    {
+                        logLevelString = ErrorLevel;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Fatal:
+                    {
+                        logLevelString = FatalLevel;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Information:
+                    {
+                        logLevelString = InformationLevel;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Trace:
+                    {
+                        logLevelString = TraceLevel;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Warning:
+                    {
+                        logLevelString = WarningLevel;
+                        break;
+                    }
+                default:
+                    {
+                        logLevelString = "N/A";
+                        break;
+                    }
+            }
+
+            WriteFormattedLog(logLevelString, logstring, eventId, memberName, sourceFilePath, sourceLineNumber);
+        }
+        #endregion IgnoreLogLevel
 
         #region Trace
         // This is used if the user specificies a tag to be used
@@ -334,6 +440,23 @@ namespace Peamel.BasicLogger
             Information(tagged, null, logstring, memberName, sourceFilePath, sourceLineNumber);
         }
 
+        public void Information(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Information(_defaultTag, null, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Information(IBasicLoggerTag tagged, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Information(tagged, null, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
         // This is used if the user specificies a tag to be used
         public void Information(BasicLoggerEventId eventId, String logstring,
             [CallerMemberName] string memberName = "",
@@ -388,6 +511,23 @@ namespace Peamel.BasicLogger
             Warning(tagged, null, logstring, memberName, sourceFilePath, sourceLineNumber);
         }
 
+        public void Warning(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Warning(_defaultTag, null, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
+        // This is used if the user specificies a tag to be used
+        public void Warning(IBasicLoggerTag tagged, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            Warning(tagged, null, logstring, memberName, sourceFilePath, sourceLineNumber);
+        }
+
         // This is used if the user specificies a tag to be used
         public void Warning(BasicLoggerEventId eventId, String logstring,
             [CallerMemberName] string memberName = "",
@@ -418,7 +558,7 @@ namespace Peamel.BasicLogger
                 }
             }
 
-            WriteFormattedLog(WarnLevel, logstring, eventId, memberName, sourceFilePath, sourceLineNumber);
+            WriteFormattedLog(WarningLevel, logstring, eventId, memberName, sourceFilePath, sourceLineNumber);
         }
         #endregion Warning
 
@@ -602,6 +742,9 @@ namespace Peamel.BasicLogger
                 {
                     _logStreamWriter.WriteLine(logString);
                 }
+
+                if (messageTarget != null)
+                    messageTarget(logString);
             }
 
             RotateLogs();

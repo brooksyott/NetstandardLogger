@@ -114,7 +114,7 @@ namespace Peamel.BasicLogger
             }
         }
 
-        internal void SetLogLevel(String logLevel)
+        internal Boolean SetLogLevel(String logLevel)
         {
             String tLogLevel = logLevel.ToLowerInvariant();
 
@@ -128,7 +128,7 @@ namespace Peamel.BasicLogger
                         WarnOn = true;
                         ErrorOn = true;
                         FatalOn = true;
-                        break;
+                        return true;
                     }
                 case "debug":
                     {
@@ -138,7 +138,7 @@ namespace Peamel.BasicLogger
                         WarnOn = true;
                         ErrorOn = true;
                         FatalOn = true;
-                        break;
+                        return true;
                     }
                 case "information":
                     {
@@ -148,7 +148,7 @@ namespace Peamel.BasicLogger
                         WarnOn = true;
                         ErrorOn = true;
                         FatalOn = true;
-                        break;
+                        return true;
                     }
                 case "warning":
                     {
@@ -158,7 +158,7 @@ namespace Peamel.BasicLogger
                         WarnOn = true;
                         ErrorOn = true;
                         FatalOn = true;
-                        break;
+                        return true;
                     }
                 case "error":
                     {
@@ -168,7 +168,7 @@ namespace Peamel.BasicLogger
                         WarnOn = false;
                         ErrorOn = true;
                         FatalOn = true;
-                        break;
+                        return true;
                     }
                 case "fatal":
                     {
@@ -178,7 +178,7 @@ namespace Peamel.BasicLogger
                         WarnOn = false;
                         ErrorOn = false;
                         FatalOn = true;
-                        break;
+                        return true;
                     }
                 case "none":
                     {
@@ -188,7 +188,11 @@ namespace Peamel.BasicLogger
                         WarnOn = false;
                         ErrorOn = false;
                         FatalOn = false;
-                        break;
+                        return true;
+                    }
+                default:
+                    {
+                        return false;
                     }
             }
         }

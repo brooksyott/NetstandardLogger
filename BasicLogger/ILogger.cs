@@ -12,6 +12,8 @@ namespace Peamel.BasicLogger
         Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10);
         Boolean Changefile(String LogFileName);
         void CreateTag(String tag);
+        void RegisterLogHandler(Action<string> handler);
+        void UnRegisterLogHandler(Action<string> handler);
 
         // Legacy, backwards compatable
         void SetLogLevel(BASICLOGGERLEVELS logLevel);
@@ -22,8 +24,31 @@ namespace Peamel.BasicLogger
         // New Format
         void SetLogLevel(BasicLoggerLogLevels logLevel);
         void SetLogLevel(BasicLoggerLogLevels logLevel, IBasicLoggerTag tag);
+        Boolean SetLogLevel(String loglevel);
+        Boolean SetLogLevel(String loglevel, IBasicLoggerTag tagged);
         BasicLoggerLogLevels CurrentLogLevel();
         BasicLoggerLogLevels CurrentLogLevel(IBasicLoggerTag tagged);
+
+        // Force functions
+        void Force(BasicLoggerLogLevels logLevel, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Force(BasicLoggerLogLevels logLevel, IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Force(BasicLoggerLogLevels logLevel, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Force(BasicLoggerLogLevels logLevel, IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
 
         // Trace functions
         void Trace(String logstring,
@@ -79,6 +104,16 @@ namespace Peamel.BasicLogger
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
 
+        void Information(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Information(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
         void Information(BasicLoggerEventId eventId, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
@@ -96,6 +131,16 @@ namespace Peamel.BasicLogger
             [CallerLineNumber] int sourceLineNumber = 0);
 
         void Warn(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Warning(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Warning(IBasicLoggerTag tag, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
