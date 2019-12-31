@@ -13,61 +13,145 @@ namespace Peamel.BasicLogger
         Boolean Changefile(String LogFileName);
         void CreateTag(String tag);
 
-        void SetLogLevel(BASICLOGGERLEVELS loglevel);
-        void SetLogLevel(BASICLOGGERLEVELS loglevel, BasicLoggerTag tag);
+        // Legacy, backwards compatable
+        void SetLogLevel(BASICLOGGERLEVELS logLevel);
+        void SetLogLevel(BASICLOGGERLEVELS logLevel, IBasicLoggerTag tag);
         BASICLOGGERLEVELS GetLogLevel();
-        BASICLOGGERLEVELS GetLogLevel(BasicLoggerTag tagged);
+        BASICLOGGERLEVELS GetLogLevel(IBasicLoggerTag tagged);
 
+        // New Format
+        void SetLogLevel(BasicLoggerLogLevels logLevel);
+        void SetLogLevel(BasicLoggerLogLevels logLevel, IBasicLoggerTag tag);
+        BasicLoggerLogLevels CurrentLogLevel();
+        BasicLoggerLogLevels CurrentLogLevel(IBasicLoggerTag tagged);
+
+        // Trace functions
         void Trace(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
-        void Debug(String logstring,
-                [CallerMemberName] string memberName = "",
+
+        void Trace(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Trace(BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Trace(IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+
+        // Debug functions
+        void Debug(String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Debug(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Debug(BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Debug(IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        // Information functions
         void Info(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Info(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Information(BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Information(IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        // Warn functions
         void Warn(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Warn(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Warning(BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Warning(IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        // Error functions
         void Error(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Error(IBasicLoggerTag tag, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Error(BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Error(IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        // Fatal functions
         void Fatal(String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
 
-        void Trace(BasicLoggerTag tag, String logstring,
+        void Fatal(IBasicLoggerTag tag, String logstring,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string sourceFilePath = "",
             [CallerLineNumber] int sourceLineNumber = 0);
-        void Debug(BasicLoggerTag tag, String logstring,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0);
-        void Info(BasicLoggerTag tag, String logstring,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0);
-        void Warn(BasicLoggerTag tag, String logstring,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0);
-        void Error(BasicLoggerTag tag, String logstring,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0);
-        void Fatal(BasicLoggerTag tag, String logstring,
-            [CallerMemberName] string memberName = "",
-            [CallerFilePath] string sourceFilePath = "",
-            [CallerLineNumber] int sourceLineNumber = 0);
-        void Raw(String logString);
 
+        void Fatal(BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Fatal(IBasicLoggerTag tag, BasicLoggerEventId eventId, String logstring,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string sourceFilePath = "",
+            [CallerLineNumber] int sourceLineNumber = 0);
+
+        void Raw(String logString);
     }
 }

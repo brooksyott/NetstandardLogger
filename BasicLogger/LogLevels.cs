@@ -17,6 +17,17 @@ namespace Peamel.BasicLogger
         TRACE
     };
 
+    public enum BasicLoggerLogLevels
+    {
+        None = 6,
+        Fatal = 5,
+        Error = 4,
+        Warning = 3,
+        Information = 2,
+        Debug = 1,
+        Trace = 0
+    };
+
     internal class LoggerLevels
     {
         internal Boolean TraceOn = true;
@@ -25,6 +36,173 @@ namespace Peamel.BasicLogger
         internal Boolean WarnOn = false;
         internal Boolean ErrorOn = false;
         internal Boolean FatalOn = false;
+
+        internal void SetLogLevel(BasicLoggerLogLevels logLevel)
+        {
+            switch (logLevel)
+            {
+                case BasicLoggerLogLevels.Trace:
+                    {
+                        TraceOn = true;
+                        DebugOn = true;
+                        InfoOn = true;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Debug:
+                    {
+                        TraceOn = false;
+                        DebugOn = true;
+                        InfoOn = true;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Information:
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = true;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Warning:
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Error:
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = false;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case BasicLoggerLogLevels.Fatal:
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = false;
+                        ErrorOn = false;
+                        FatalOn = true;
+                        break;
+                    }
+                case BasicLoggerLogLevels.None:
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = false;
+                        ErrorOn = false;
+                        FatalOn = false;
+                        break;
+                    }
+            }
+        }
+
+        internal void SetLogLevel(String logLevel)
+        {
+            String tLogLevel = logLevel.ToLowerInvariant();
+
+            switch (tLogLevel)
+            {
+                case "trace":
+                    {
+                        TraceOn = true;
+                        DebugOn = true;
+                        InfoOn = true;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case "debug":
+                    {
+                        TraceOn = false;
+                        DebugOn = true;
+                        InfoOn = true;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case "information":
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = true;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case "warning":
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = true;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case "error":
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = false;
+                        ErrorOn = true;
+                        FatalOn = true;
+                        break;
+                    }
+                case "fatal":
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = false;
+                        ErrorOn = false;
+                        FatalOn = true;
+                        break;
+                    }
+                case "none":
+                    {
+                        TraceOn = false;
+                        DebugOn = false;
+                        InfoOn = false;
+                        WarnOn = false;
+                        ErrorOn = false;
+                        FatalOn = false;
+                        break;
+                    }
+            }
+        }
+
+        internal BasicLoggerLogLevels CurrentLogLevel()
+        {
+            if (TraceOn == true) return BasicLoggerLogLevels.Trace;
+            if (DebugOn == true) return BasicLoggerLogLevels.Debug;
+            if (InfoOn == true) return BasicLoggerLogLevels.Information;
+            if (WarnOn == true) return BasicLoggerLogLevels.Warning;
+            if (ErrorOn == true) return BasicLoggerLogLevels.Error;
+            if (FatalOn == true) return BasicLoggerLogLevels.Fatal;
+            return BasicLoggerLogLevels.None;
+        }
 
         internal void SetLogLevel(BASICLOGGERLEVELS loglevel)
         {
@@ -113,5 +291,6 @@ namespace Peamel.BasicLogger
             if (FatalOn == true) return BASICLOGGERLEVELS.FATAL;
             return BASICLOGGERLEVELS.OFF;
         }
+
     }
 }

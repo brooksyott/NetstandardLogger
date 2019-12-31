@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Peamel.BasicLogger
 {
-    public class BasicLoggerTag
+    public class BasicLoggerTag: IBasicLoggerTag
     {
         public BasicLoggerTag(String tag)
         {
@@ -19,6 +19,16 @@ namespace Peamel.BasicLogger
         public String TagName
         {
             get { return _tagName; }
+        }
+
+        public String GetName()
+        {
+            return _tagName;
+        }
+
+        public void SetName(String tag)
+        {
+            _tagName = tag;
         }
     }
 }
