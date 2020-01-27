@@ -37,14 +37,14 @@ namespace Peamel.BasicLogger
         private FileInfo _logFileInfo = null;
         private IBasicLoggerTag _defaultTag = new BasicLoggerTag(DEFAULT);
 
-        Action<string> messageTarget;
+        Action<DateTime, int?, String, String, String, int, String, String> messageTarget;
 
-        public void RegisterLogHandler(Action<string> handler)
+        public void RegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler)
         {
             messageTarget += handler;
         }
 
-        public void UnRegisterLogHandler(Action<string> handler)
+        public void UnRegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler)
         {
             messageTarget -= handler;
         }
@@ -208,19 +208,20 @@ namespace Peamel.BasicLogger
 
         public BasicLoggerLogLevels CurrentLogLevel()
         {
-            return CurrentLogLevel(_defaultTag);
+            String ttag = _defaultTag.GetName();
+            return _tagLogLevel[ttag].CurrentLogLevel();
         }
 
-        public BasicLoggerLogLevels CurrentLogLevel(IBasicLoggerTag tagged)
+        public BasicLoggerLogLevels CurrentLogLevel(IBasicLoggerTag tag)
         {
-            String tag = tagged.GetName();
+            String ttag = tag.GetName();
 
-            if (_tagLogLevel.ContainsKey(tag) == false)
+            if (_tagLogLevel.ContainsKey(ttag) == false)
             {
-                // If there is no tag, create it
-                return _tagLogLevel[tag].CurrentLogLevel();
+                ttag = _defaultTag.GetName();
             }
-            return BasicLoggerLogLevels.None;
+
+            return _tagLogLevel[ttag].CurrentLogLevel();
         }
 
         public BASICLOGGERLEVELS GetLogLevel(IBasicLoggerTag tagged)
@@ -725,8 +726,10 @@ namespace Peamel.BasicLogger
                 }
             }
 
+            DateTime logTime = DateTime.Now;
+
             string logString = String.Format("{0}\t{1}\t[{2}]\t{3}\t{4}\t{5}\t{6}\t{7}",
-                DateTime.Now.ToString(DatetimeFormat),
+                logTime.ToString(DatetimeFormat),
                 tid,
                 level,
                 sourceFile,
@@ -744,7 +747,7 @@ namespace Peamel.BasicLogger
                 }
 
                 if (messageTarget != null)
-                    messageTarget(logString);
+                    messageTarget(logTime, tid, level, sourceFile, memberName, sourceLineNumber, eventString, logstring);
             }
 
             RotateLogs();

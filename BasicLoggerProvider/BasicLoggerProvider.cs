@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Peamel.BasicLogger.Provider
+namespace Peamel.BasicLogger.Extensions.Logging
 {
     public class BasicLoggerProvider : IDisposable, ILoggerProvider, ISupportExternalScope
     {

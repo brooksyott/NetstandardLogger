@@ -4,11 +4,11 @@
     <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>Peamel.BasicLogger</RootNamespace>
     <AssemblyName>PeamelBasicLogger</AssemblyName>
-    <Version>1.2.2</Version>
+    <Version>1.2.4</Version>
     <Authors>Dave Brooks</Authors>
     <Company />
     <Product>BasicLogger</Product>
-    <Description>A basic logger.</Description>
+    <Description>A minimalistic logger.</Description>
     <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
     <AssemblyVersion>1.1.2.0</AssemblyVersion>
     <FileVersion>1.1.2.0</FileVersion>

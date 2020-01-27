@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.2.1</Version>
+    <Version>1.2.3</Version>
     <Authors>Dave Brooks</Authors>
     <Company>Dave Brooks</Company>
     <Product>BasicLogger</Product>
     <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
-    <PackageId>Peamel.BasicLogger.Provider</PackageId>
+    <PackageId>Peamel.BasicLogger.Extensions.Logging</PackageId>
     <Copyright>MIT</Copyright>
     <PackageTags>logger, peamel, netcore</PackageTags>
-    <Description>A Netcore provider for my custom logger (Peamel.BasicLogger)</Description>
+    <Description>A Netcore provider for the minimalistic Peamel.BasicLogger</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/brooksyott/BasicLogger</RepositoryUrl>
   </PropertyGroup>

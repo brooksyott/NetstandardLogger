@@ -78,9 +78,21 @@ namespace BasicLoggerDemo
         static ILogger _log3;
         static SampleClassToLog classToLog = new SampleClassToLog();
 
-        static void LogHandler(String log)
+        static void LogHandler(DateTime logTime, int? tid, String level, 
+            String sourceFile, String memberName, int sourceLineNumber, 
+            String eventString, String logstring)
         {
-            Console.WriteLine(log);
+           string DatetimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
+           string logString = String.Format("Handler - {0}\t{1}\t[{2}]\t{3}\t{4}\t{5}\t{6}\t{7}",
+                logTime.ToString(DatetimeFormat),
+                tid,
+                level,
+                sourceFile,
+                memberName,
+                sourceLineNumber,
+                eventString,
+                logstring);
+            Console.WriteLine(logString);
         }
 
         static void Main(string[] args)
@@ -92,6 +104,16 @@ namespace BasicLoggerDemo
             // However, it should also not generate a null pointer exception
             _log = BasicLoggerFactory.CreateLogger($".\\BasicLogger.log");
             _log = BasicLoggerFactory.GetLogger();   // gets the default logger
+            BasicLoggerTag tag1 = new BasicLoggerTag("DUMMY");
+            _log.SetLogLevel(BasicLoggerLogLevels.Information, tag1);
+            _log.Trace(tag1, "Trace");
+            _log.Debug(tag1, "Debug");
+            _log.Information(tag1, "Information");
+            _log.Info(tag1, "Info");
+            _log.Error(tag1, "Error");
+            _log.Warning(tag1, "Warning");
+            _log.Warn(tag1, "Warn");
+            _log.Fatal(tag1, "Fatal");
 
             // Registers a log handler
             _log.RegisterLogHandler(LogHandler);
@@ -155,6 +177,9 @@ namespace BasicLoggerDemo
             {
                 _log3.Info("For rotation " + i);
             }
+
+            Console.WriteLine("Hit return to exit");
+            Console.ReadLine();
         }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Peamel.BasicLogger.Provider
+namespace Peamel.BasicLogger.Extensions.Logging
 {
     public class BasicLoggerNetcore : Microsoft.Extensions.Logging.ILogger
     {

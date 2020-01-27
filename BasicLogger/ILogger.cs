@@ -12,8 +12,8 @@ namespace Peamel.BasicLogger
         Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10);
         Boolean Changefile(String LogFileName);
         void CreateTag(String tag);
-        void RegisterLogHandler(Action<string> handler);
-        void UnRegisterLogHandler(Action<string> handler);
+        void RegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler);
+        void UnRegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler);
 
         // Legacy, backwards compatable
         void SetLogLevel(BASICLOGGERLEVELS logLevel);

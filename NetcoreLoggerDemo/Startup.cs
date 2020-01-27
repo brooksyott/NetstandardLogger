@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Peamel.BasicLogger;
-using Peamel.BasicLogger.Provider;
+using Peamel.BasicLogger.Extensions.Logging;
 
 namespace NetcoreLoggerDemo
 {

@@ -80,12 +80,12 @@ namespace Peamel.BasicLogger
             return false;
         }
 
-        public void RegisterLogHandler(Action<string> handler)
+        public void RegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler)
         {
             return;
         }
 
-        public void UnRegisterLogHandler(Action<string> handler)
+        public void UnRegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler)
         {
             return;
         }
