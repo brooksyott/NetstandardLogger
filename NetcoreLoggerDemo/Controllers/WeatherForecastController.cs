@@ -19,15 +19,10 @@ namespace NetcoreLoggerDemo.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private static Peamel.BasicLogger.ILogger _pLog;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            if (_pLog == null)
-            {
-                _pLog = BasicLoggerFactory.GetLogger();
-            }
         }
 
         [HttpGet]
@@ -35,7 +30,8 @@ namespace NetcoreLoggerDemo.Controllers
         {
             var rng = new Random();
             _logger.LogInformation("Netcore logger, Get called");
-            _pLog.Information("Basic Logger called directoy, Get called");
+            Peamel.BasicLogger.ILogger plog = BasicLoggerFactory.GetLogger();
+            plog.Information("Peamel logger, Get called");
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
