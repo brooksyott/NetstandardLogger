@@ -29,11 +29,6 @@ namespace NetcoreLoggerDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddLogging(config =>
-            {
-                config.AddConsole();
-                config.AddProvider(new BasicLoggerProvider(Configuration));
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

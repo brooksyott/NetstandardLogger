@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 using System.Runtime.CompilerServices;
 using System.IO;
+using System.Threading;
 
 // Requires 
 namespace Peamel.BasicLogger
@@ -18,7 +19,7 @@ namespace Peamel.BasicLogger
     /// The TAG allows the caller to setup log levels specific to a tag, but they all go 
     /// to the same log file (for now)
     /// </summary>
-    public class Logger : ILogger
+    public class Logger : ILogger, IDisposable
     {
         const String InformationLevel = "INFO";
         const String DebugLevel = "DEBUG";
@@ -28,6 +29,8 @@ namespace Peamel.BasicLogger
         const String FatalLevel = "FATAL";
 
         public const String DEFAULT = "DEFAULT";
+
+        static public int LoggerCount { get; set; }
 
         private string DatetimeFormat = "yyyy-MM-dd HH:mm:ss.fff";
         private const string Title = "Date Time\tThread\tLevel\tFile\tMethod\tLine\tEvent\tLog";
@@ -135,10 +138,54 @@ namespace Peamel.BasicLogger
         {
             Boolean rc = ConfigureLogger(LogFileName, MaxFileSize);
 
+            LoggerCount++;
+
             // Set up the default log tag and log level (INFO LEVEL)
             _tagLogLevel = new Dictionary<string, LoggerLevels>();
             SetLogLevel(BasicLoggerLogLevels.Information, _defaultTag);
         }
+
+        /// <summary>
+        /// Destructor.
+        /// </summary>
+        ~Logger()
+        {
+            if (!this.IsDisposed)
+            {
+                Dispose(false);
+            }
+        }
+
+        /// <summary>
+        /// Disposes this instance
+        /// </summary>
+        void IDisposable.Dispose()
+        {
+            if (!this.IsDisposed)
+            {
+                try
+                {
+                    Dispose(true);
+                }
+                catch
+                {
+                }
+
+                this.IsDisposed = true;
+                GC.SuppressFinalize(this);  // instructs GC not bother to call the destructor                
+            }
+        }
+
+        /* protected */
+        /// <summary>
+        /// Disposes the options change toker. IDisposable pattern implementation.
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            LoggerCount--;
+        }
+
+        public bool IsDisposed { get; protected set; }
 
         public void CreateTag(String tag)
         {
@@ -148,7 +195,6 @@ namespace Peamel.BasicLogger
                 _tagLogLevel[tag] = new LoggerLevels();
             }
         }
-
 
         public void SetLogLevel(BASICLOGGERLEVELS loglevel)
         {
@@ -767,12 +813,12 @@ namespace Peamel.BasicLogger
             if (_logFileInfo == null)
                 return;
 
-            _logCount++;
+            Interlocked.Increment(ref _logCount);
 
             if (_logCount < _checkRotationLogCount)
                 return;
 
-            _logCount = 0;
+            Interlocked.Exchange(ref _logCount, 0);
 
             Task.Run(() =>
             {
