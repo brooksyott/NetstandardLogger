@@ -14,10 +14,19 @@ namespace Peamel.BasicLogger
     /// </summary>
     public class EmptyLogger : ILogger
     {
-        public Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10)
+        public Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
         {
             return false;
         }
+        public Boolean ConfigureLogger(String LogFileName, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
+        {
+            return false;
+        }
+        public Boolean ConfigureLogger()
+        {
+            return false;
+        }
+
 
         public void CreateTag(String tag)
         {

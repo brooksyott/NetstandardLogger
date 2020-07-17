@@ -20,7 +20,8 @@ namespace Peamel.BasicLogger.Extensions.Logging
     public class BasicLoggerOptions 
     {
         string m_fileName;
-        int fMaxFileSizeInMB;
+        int m_faxFileSizeInMB;
+        Boolean m_logToConsole = false;
 
         /* construction */
         /// <summary>
@@ -41,7 +42,8 @@ namespace Peamel.BasicLogger.Extensions.Logging
         /// </summary>
         public string Filename
         {
-            get { return !string.IsNullOrWhiteSpace(m_fileName) ? m_fileName : System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location); }
+            //get { return !string.IsNullOrWhiteSpace(m_fileName) ? m_fileName : System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location); }
+            get { return m_fileName; }
             set { m_fileName = value; }
         }
 
@@ -50,8 +52,17 @@ namespace Peamel.BasicLogger.Extensions.Logging
         /// </summary>
         public int MaxFileSizeInMB
         {
-            get { return fMaxFileSizeInMB > 0 ? fMaxFileSizeInMB : 3; }
-            set { fMaxFileSizeInMB = value; }
+            get { return m_faxFileSizeInMB > 0 ? m_faxFileSizeInMB : 3; }
+            set { m_faxFileSizeInMB = value; }
+        }
+
+        /// <summary>
+        /// The maximum number in MB of a single log file. Defaults to 3.
+        /// </summary>
+        public Boolean LogToConsole
+        {
+            get { return m_logToConsole; }
+            set { m_logToConsole = value; }
         }
     }
 }

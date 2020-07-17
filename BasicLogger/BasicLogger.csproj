@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Peamel.BasicLogger</RootNamespace>
     <AssemblyName>PeamelBasicLogger</AssemblyName>
-    <Version>1.3.4</Version>
+    <Version>1.4.5</Version>
     <Authors>Dave Brooks</Authors>
     <Company />
     <Product>BasicLogger</Product>
@@ -12,15 +12,11 @@
     <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
     <AssemblyVersion>1.1.2.0</AssemblyVersion>
     <FileVersion>1.1.2.0</FileVersion>
-    <PackageReleaseNotes>Updated to have the tag be a class, to allow the tag to be the first value in the parameter list.</PackageReleaseNotes>
+    <PackageReleaseNotes>Support for logging to console</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>netstandard, logger, peamel, xamarin forms</PackageTags>
     <PackageId>Peamel.BasicLogger</PackageId>
     <Copyright>MIT</Copyright>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Threading.Thread" Version="4.3.0" />
-  </ItemGroup>
 
 </Project>

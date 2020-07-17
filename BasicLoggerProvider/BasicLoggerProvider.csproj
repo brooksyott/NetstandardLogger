@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.3.3</Version>
+    <Version>1.4.5</Version>
     <Authors>Dave Brooks</Authors>
     <Company>Dave Brooks</Company>
     <Product>BasicLogger</Product>
@@ -14,6 +14,7 @@
     <Description>A Netcore provider for the minimalistic Peamel.BasicLogger</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/brooksyott/BasicLogger</RepositoryUrl>
+    <PackageReleaseNotes>support for logging to console</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

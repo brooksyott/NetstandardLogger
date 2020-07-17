@@ -9,7 +9,9 @@ namespace Peamel.BasicLogger
 {
     public interface ILogger
     {
-        Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10);
+        Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File);
+        Boolean ConfigureLogger(String LogFileName, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File);
+        Boolean ConfigureLogger();
         Boolean Changefile(String LogFileName);
         void CreateTag(String tag);
         void RegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler);

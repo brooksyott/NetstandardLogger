@@ -30,8 +30,9 @@ namespace NetcoreLoggerDemo.Controllers
         {
             var rng = new Random();
             _logger.LogInformation("Netcore logger, Get called");
-            Peamel.BasicLogger.ILogger plog = BasicLoggerFactory.GetLogger();
-            plog.Information("Peamel logger, Get called");
+            _logger.LogError("Test an error log");
+            _logger.LogWarning("Test a warning log");
+            //_pLog.Information("Basic Logger called directoy, Get called");
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
