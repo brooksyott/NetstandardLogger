@@ -41,8 +41,9 @@ namespace Peamel.BasicLogger
         /// </summary>
         /// <param name="loggerName"></param>
         /// <returns></returns>
-        public static ILogger CreateLogger(String loggerName, String logFileName, long maxFileSize = 10)
+        public static ILogger CreateLogger(String loggerName, String logFileName, long maxFileSize, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
         {
+            
             // Make any updates to a logger thread safe
             lock ( lockObject)
             {
@@ -57,11 +58,49 @@ namespace Peamel.BasicLogger
                     }
                 }
 
-                // The logger was either empty, or didn't exist, so create it
-                _loggers[loggerName] = new Logger(logFileName, maxFileSize);
+                if (loggerOutputType == LoggerOutputTypes.Console)
+                {
+                    _loggers[loggerName] = new Logger();
+                }
+                else
+                {
+                    _loggers[loggerName] = new Logger(logFileName, maxFileSize, loggerOutputType);
+                }
 
                 return _loggers[loggerName];
             }
+        }
+
+        /// <summary>
+        /// Gets a logger by name.
+        /// </summary>
+        /// <param name="loggerName"></param>
+        /// <returns></returns>
+        public static ILogger CreateLogger(String loggerName, String logFileName, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
+        {
+            return CreateLogger(loggerName, logFileName, 10, loggerOutputType);
+        }
+
+        /// <summary>
+        /// Gets a logger by name.
+        /// </summary>
+        /// <param name="loggerName"></param>
+        /// <returns></returns>
+        public static ILogger CreateLogger(String logFileName, LoggerOutputTypes loggerOutputType)
+        {
+            return CreateLogger(_defaultLoggerName, logFileName, 10, loggerOutputType);
+        }
+
+
+        /// <summary>
+        /// Gets a logger by name.
+        /// </summary>
+        /// <param name="loggerName"></param>
+        /// <returns></returns>
+        public static ILogger CreateLogger()
+        {
+            _loggers[_defaultLoggerName] = new Logger();
+            return _loggers[_defaultLoggerName];
         }
 
         /// <summary>
@@ -69,9 +108,19 @@ namespace Peamel.BasicLogger
         /// </summary>
         /// <param name="loggerName"></param>
         /// <returns></returns>
-        public static ILogger CreateLogger(String logFileName, long maxFileSize = 1)
+        public static ILogger CreateLogger(String logFileName, long maxFileSize = 10, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
         {
-            return CreateLogger(_defaultLoggerName, logFileName, maxFileSize);
+            return CreateLogger(_defaultLoggerName, logFileName, maxFileSize, loggerOutputType);
+        }
+
+        /// <summary>
+        /// Creates the default logger.
+        /// </summary>
+        /// <param name="loggerName"></param>
+        /// <returns></returns>
+        public static ILogger CreateLogger(String logFileName)
+        {
+            return CreateLogger(_defaultLoggerName, logFileName, 10);
         }
 
         /// <summary>

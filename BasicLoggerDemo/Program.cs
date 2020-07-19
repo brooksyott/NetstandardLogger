@@ -102,7 +102,8 @@ namespace BasicLoggerDemo
 
             // Should not generate any logs, since a logger has not been set
             // However, it should also not generate a null pointer exception
-            _log = BasicLoggerFactory.CreateLogger($".\\BasicLogger.log");
+            //_log = BasicLoggerFactory.CreateLogger($".\\BasicLogger.log", LoggerOutputTypes.Both);
+            _log = BasicLoggerFactory.CreateLogger();
             _log = BasicLoggerFactory.GetLogger();   // gets the default logger
             BasicLoggerTag tag1 = new BasicLoggerTag("DUMMY");
             _log.SetLogLevel(BasicLoggerLogLevels.Information, tag1);

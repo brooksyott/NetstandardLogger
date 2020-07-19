@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicLoggerDemo", "BasicLog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicLoggerProvider", "BasicLoggerProvider\BasicLoggerProvider.csproj", "{5B077D93-022B-4EA2-93EE-13A425AF4F6F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetcoreLoggerDemo", "NetcoreLoggerDemo\NetcoreLoggerDemo.csproj", "{0EBD499D-D262-42E2-8B0F-37C0D652ABC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "netcoreloggerdemo", "NetcoreLoggerDemo\netcoreloggerdemo.csproj", "{0EBD499D-D262-42E2-8B0F-37C0D652ABC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetcoreConsoleAppDemo", "NetcoreConsoleAppDemo\NetcoreConsoleAppDemo.csproj", "{89C09569-8912-4CE1-A683-0A1090F5967C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetcoreConsoleAppDemo", "NetcoreConsoleAppDemo\NetcoreConsoleAppDemo.csproj", "{89C09569-8912-4CE1-A683-0A1090F5967C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

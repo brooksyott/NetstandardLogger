@@ -12,6 +12,12 @@ using System.Threading;
 // Requires 
 namespace Peamel.BasicLogger
 {
+    public enum LoggerOutputTypes
+    {
+        File,
+        Console,
+        Both
+    };
 
     /// <summary>
     /// The logger class writes logs to a file, and will create and .old.log file when rotating based
@@ -40,6 +46,9 @@ namespace Peamel.BasicLogger
         private FileInfo _logFileInfo = null;
         private IBasicLoggerTag _defaultTag = new BasicLoggerTag(DEFAULT);
 
+        private LoggerOutputTypes _loggerOutputType = LoggerOutputTypes.File;
+
+
         Action<DateTime, int?, String, String, String, int, String, String> messageTarget;
 
         public void RegisterLogHandler(Action<DateTime, int?, String, String, String, int, String, String> handler)
@@ -64,8 +73,49 @@ namespace Peamel.BasicLogger
         /// <param name="LogFileName"></param>
         /// <param name="MaxFileSize">FileSize to rotate in Megabytes</param>
         /// <returns></returns>
+        public Boolean ConfigureLogger(String LogFileName, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
+        {
+            _loggerOutputType = loggerOutputType;
+            return ConfigureLogger(LogFileName, 10);
+        }
+
+        /// <summary>
+        /// Configures the logger to type console
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="LogFileName"></param>
+        /// <param name="MaxFileSize">FileSize to rotate in Megabytes</param>
+        /// <returns></returns>
+        public Boolean ConfigureLogger()
+        {
+            _loggerOutputType = LoggerOutputTypes.Console;
+            Raw(Title);
+            return true;
+        }
+
+        /// <summary>
+        /// Configures the logger
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="LogFileName"></param>
+        /// <param name="MaxFileSize">FileSize to rotate in Megabytes</param>
+        /// <returns></returns>
         public Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10)
         {
+            return ConfigureLogger(LogFileName, MaxFileSize, LoggerOutputTypes.File);
+        }
+
+        /// <summary>
+        /// Configures the logger
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="LogFileName"></param>
+        /// <param name="MaxFileSize">FileSize to rotate in Megabytes</param>
+        /// <returns></returns>
+        public Boolean ConfigureLogger(String LogFileName, long MaxFileSize = 10, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
+        {
+            _loggerOutputType = loggerOutputType;
+
             Boolean loggerSuccess = true;
 
             if (String.IsNullOrEmpty(LogFileName)) return false;
@@ -134,9 +184,28 @@ namespace Peamel.BasicLogger
             return loggerSuccess;
         }
 
-        public Logger(String LogFileName, long MaxFileSize = 1)
+        public Logger(String LogFileName, long MaxFileSize = 1, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
         {
-            Boolean rc = ConfigureLogger(LogFileName, MaxFileSize);
+            Boolean rc = ConfigureLogger(LogFileName, MaxFileSize, loggerOutputType);
+
+            // Set up the default log tag and log level (INFO LEVEL)
+            _tagLogLevel = new Dictionary<string, LoggerLevels>();
+            SetLogLevel(BasicLoggerLogLevels.Information, _defaultTag);
+        }
+
+        public Logger(String LogFileName, LoggerOutputTypes loggerOutputType = LoggerOutputTypes.File)
+        {
+            Boolean rc = ConfigureLogger(LogFileName, 10, loggerOutputType);
+
+            // Set up the default log tag and log level (INFO LEVEL)
+            _tagLogLevel = new Dictionary<string, LoggerLevels>();
+            SetLogLevel(BasicLoggerLogLevels.Information, _defaultTag);
+        }
+
+        public Logger()
+        {
+
+            Boolean rc = ConfigureLogger();
 
             LoggerCount++;
 
@@ -717,12 +786,20 @@ namespace Peamel.BasicLogger
         // This is used if the user specificies a tag to be used
         public void Raw(String logString)
         {
-            // Writing to the filesystem, so perform a lock
-            lock (_logLock)
+            if ((_loggerOutputType == LoggerOutputTypes.Console) || (_loggerOutputType == LoggerOutputTypes.Both))
             {
-                if (_logStreamWriter != null)
+                Console.WriteLine(logString);
+            }
+
+            if ((_loggerOutputType == LoggerOutputTypes.File) || (_loggerOutputType == LoggerOutputTypes.Both))
+            {
+                // Writing to the filesystem, so perform a lock
+                lock (_logLock)
                 {
-                    _logStreamWriter.WriteLine(logString);
+                    if (_logStreamWriter != null)
+                    {
+                        _logStreamWriter.WriteLine(logString);
+                    }
                 }
             }
         }
@@ -733,7 +810,7 @@ namespace Peamel.BasicLogger
             String sourceFilePath,
             int sourceLineNumber)
         {
-            if (!File.Exists(_fileName))
+            if ((!File.Exists(_fileName) && (_loggerOutputType != LoggerOutputTypes.Console)))
             {
                 return;
             }
@@ -744,7 +821,7 @@ namespace Peamel.BasicLogger
             int? tid = Task.CurrentId.HasValue ? Task.CurrentId : 0;
 
             // Derive only the filename, not the full path
-            //String[] filenameArray;
+            // String[] filenameArray;
             String sourceFile = String.Empty;
 
             if (!String.IsNullOrEmpty(sourceFilePath))
@@ -784,19 +861,27 @@ namespace Peamel.BasicLogger
                 eventString,
                 logstring);
 
-            // Writing to the filesystem, so perform a lock
-            lock (_logLock)
+            if ((_loggerOutputType == LoggerOutputTypes.Console) || (_loggerOutputType == LoggerOutputTypes.Both))
             {
-                if (_logStreamWriter != null)
-                {
-                    _logStreamWriter.WriteLine(logString);
-                }
-
-                if (messageTarget != null)
-                    messageTarget(logTime, tid, level, sourceFile, memberName, sourceLineNumber, eventString, logstring);
+                Console.WriteLine(logString);
             }
 
-            RotateLogs();
+            if ((_loggerOutputType == LoggerOutputTypes.File) || (_loggerOutputType == LoggerOutputTypes.Both))
+            {
+                // Writing to the filesystem, so perform a lock
+                lock (_logLock)
+                {
+                    if (_logStreamWriter != null)
+                    {
+                        _logStreamWriter.WriteLine(logString);
+                    }
+
+                    if (messageTarget != null)
+                        messageTarget(logTime, tid, level, sourceFile, memberName, sourceLineNumber, eventString, logstring);
+                }
+
+                RotateLogs();
+            }
         }
 
         private long _logCount = 0;

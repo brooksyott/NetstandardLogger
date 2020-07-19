@@ -11,13 +11,18 @@ namespace Peamel.BasicLogger.Extensions.Logging
     [ProviderAlias("BasicLogger")]
     public class BasicLoggerProvider : IDisposable, ILoggerProvider, ISupportExternalScope
     {
+
+        internal BasicLoggerOptions Settings { get; private set; }
+
         IExternalScopeProvider fScopeProvider;
-        protected IDisposable SettingsChangeToken;
+        protected IDisposable SettingsChange;
 
         Microsoft.Extensions.Logging.ILogger m_logger;
 
         String m_basicLoggerFilename = String.Empty;
         int m_maxFileSizeMB = 3;
+        String m_logLevelString = String.Empty;
+        LoggerOutputTypes m_logOutputType = LoggerOutputTypes.Console;
 
         private bool m_disposed = false; // To detect redundant calls
         public bool IsDisposed { get; protected set; }
@@ -47,7 +52,7 @@ namespace Peamel.BasicLogger.Extensions.Logging
             {
                 // do some work against config to initialize logging
 
-                m_logger = new BasicLoggerNetcore(this, Category, m_basicLoggerFilename, BasicLoggerLogLevels.Information, m_maxFileSizeMB);
+                m_logger = new BasicLoggerNetcore(this, Category, m_basicLoggerFilename, BasicLoggerLogLevels.Information, m_maxFileSizeMB, m_logOutputType);
             }
 
             return m_logger;
@@ -72,16 +77,18 @@ namespace Peamel.BasicLogger.Extensions.Logging
             Dispose(true);
         }
 
-        internal BasicLoggerOptions Settings { get; private set; }
-
-
         public BasicLoggerProvider(IOptionsMonitor<BasicLoggerOptions> Settings)
             : this(Settings.CurrentValue)
         {
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/change-tokens
-            SettingsChangeToken = Settings.OnChange(settings => {
+            SettingsChange = Settings.OnChange(settings => {
+                m_basicLoggerFilename = settings.Filename;
+                m_maxFileSizeMB = settings.MaxFileSizeInMB;
+
                 this.Settings = settings;
+                UpdateLoggerType();
             });
+
         }
 
         public BasicLoggerProvider(BasicLoggerOptions settings)
@@ -89,6 +96,24 @@ namespace Peamel.BasicLogger.Extensions.Logging
             m_basicLoggerFilename = settings.Filename;
             m_maxFileSizeMB = settings.MaxFileSizeInMB;
             this.Settings = settings;
+            UpdateLoggerType();
+        }
+
+        private void UpdateLoggerType()
+        {
+            if ((!String.IsNullOrEmpty(Settings.Filename)) && (Settings.LogToConsole == true))
+            {
+                m_logOutputType = LoggerOutputTypes.Both;
+                return;
+            }
+
+            if ((!String.IsNullOrEmpty(Settings.Filename)) && (Settings.LogToConsole == false))
+            {
+                m_logOutputType = LoggerOutputTypes.File;
+                return;
+            }
+
+            m_logOutputType = LoggerOutputTypes.Console;
         }
 
         ~BasicLoggerProvider()

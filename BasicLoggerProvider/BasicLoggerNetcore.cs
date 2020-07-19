@@ -6,11 +6,12 @@ namespace Peamel.BasicLogger.Extensions.Logging
 {
     public class BasicLoggerNetcore : Microsoft.Extensions.Logging.ILogger
     {
+        const int m_defaultMaxFileSize = 3;
         public BasicLoggerProvider Provider { get; private set; }
         String Category;
         Peamel.BasicLogger.ILogger m_plogger;
         Peamel.BasicLogger.IBasicLoggerTag m_ptag;
-        int m_maxFileSizeMB = 3;
+        int m_maxFileSizeMB = m_defaultMaxFileSize;
 
         public IDisposable BeginScope<TState>(TState state)
         {
@@ -24,30 +25,50 @@ namespace Peamel.BasicLogger.Extensions.Logging
             return false;
         }
 
-        public BasicLoggerNetcore(BasicLoggerProvider Provider, string Category, String filename, String logLevelString, int maxFileSize = 3)
+        public BasicLoggerNetcore(BasicLoggerProvider Provider, string Category, String filename, String logLevelString, LoggerOutputTypes logOutputType = LoggerOutputTypes.File)
         {
             this.Provider = Provider;
             this.Category = Category;
+
             if (m_plogger == null)
             {
+                m_maxFileSizeMB = m_defaultMaxFileSize;
+
                 // Logger hasn't been created yet, so create one
-                m_plogger = BasicLoggerFactory.CreateLogger(filename, maxFileSize);
+                if (logOutputType == LoggerOutputTypes.Console)
+                {
+                    m_plogger = BasicLoggerFactory.CreateLogger();
+                }
+                else
+                {
+                    // Logger hasn't been created yet, so create one
+                    m_plogger = BasicLoggerFactory.CreateLogger(filename, m_maxFileSizeMB, logOutputType);
+                }
                 m_ptag = new BasicLoggerTag();
-                m_maxFileSizeMB = maxFileSize;
                 m_plogger.SetLogLevel(logLevelString);
             }
         }
 
-        public BasicLoggerNetcore(BasicLoggerProvider Provider, string Category, String filename, BasicLoggerLogLevels logLevel, int maxFileSize = 3)
+        public BasicLoggerNetcore(BasicLoggerProvider Provider, string Category, String filename, BasicLoggerLogLevels logLevel, int maxFileSize, LoggerOutputTypes logOutputType = LoggerOutputTypes.File)
         {
             this.Provider = Provider;
             this.Category = Category;
             if (m_plogger == null)
             {
-                // Logger hasn't been created yet, so create one
-                m_plogger = BasicLoggerFactory.CreateLogger(filename, maxFileSize);
-                m_ptag = new BasicLoggerTag();
                 m_maxFileSizeMB = maxFileSize;
+
+                // Logger hasn't been created yet, so create one
+                if (logOutputType == LoggerOutputTypes.Console)
+                {
+                    m_plogger = BasicLoggerFactory.CreateLogger();
+                }
+                else
+                {
+                    // Logger hasn't been created yet, so create one
+                    m_plogger = BasicLoggerFactory.CreateLogger(filename, m_maxFileSizeMB, logOutputType);
+                }
+
+                m_ptag = new BasicLoggerTag();
                 m_plogger.SetLogLevel(logLevel);
             }
         }
@@ -107,7 +128,7 @@ namespace Peamel.BasicLogger.Extensions.Logging
                pEventId = new BasicLoggerEventId(eventId.Id, eventId.Name);
             }
 
-            m_plogger.Force(pLogLevel, m_ptag, pEventId, msg, "CoreLogging", "CoreLogging", 0);
+            m_plogger.Force(pLogLevel, m_ptag, pEventId, msg, "NC", "NC", 0);
         }
     }
 
