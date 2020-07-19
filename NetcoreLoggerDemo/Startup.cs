@@ -40,7 +40,7 @@ namespace NetcoreLoggerDemo
             }
 
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
 
             app.UseAuthorization();

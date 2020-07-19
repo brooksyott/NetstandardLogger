@@ -42,5 +42,13 @@ namespace NetcoreLoggerDemo.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost]
+        public IActionResult Post()
+        {
+            long totalMemory = GC.GetTotalMemory(false);
+            GC.Collect();
+            return new OkObjectResult(totalMemory);
+        }
     }
 }

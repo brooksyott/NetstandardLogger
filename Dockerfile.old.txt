@@ -1,0 +1,25 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/core/runtime:3.1 AS build
+WORKDIR /src
+COPY ["NetcoreLoggerDemo/netcoreloggerdemo.csproj", "netcoreloggerdemo/"]
+COPY ["BasicLoggerProvider/BasicLoggerProvider.csproj", "BasicLoggerProvider/"]
+COPY ["BasicLogger/BasicLogger.csproj", "BasicLogger/"]
+RUN dotnet publish -r linux-x64 --self-contained true  "netcoreloggerdemo/netcoreloggerdemo.csproj" -c Release -o Runtimes
+RUN dotnet restore "netcoreloggerdemo/netcoreloggerdemo.csproj"
+COPY . .
+WORKDIR "/src/netcoreloggerdemo"
+RUN dotnet build "netcoreloggerdemo.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "netcoreloggerdemo.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "netcoreloggerdemo.dll"]

@@ -38,9 +38,6 @@ namespace NetcoreConsoleAppDemo
                 .AddJsonFile("appsettings.json", false)
                 .Build();
 
-            _loggerOptions = new BasicLoggerOptions();
-            Configuration.GetSection("Logging:BasicLogger").Bind(_loggerOptions);
-
             // Create a host, and configure logging
             var builder = new HostBuilder()
                 .ConfigureAppConfiguration((hostingContext, config) =>
@@ -51,12 +48,7 @@ namespace NetcoreConsoleAppDemo
                {
                    logging.ClearProviders();
                    logging.AddConfiguration(hostContext.Configuration.GetSection("Logging"));
-                   //logging.AddConsole();
-                   logging.AddBasicLogger(options =>
-                   {
-                       options.MaxFileSizeInMB = _loggerOptions.MaxFileSizeInMB;
-                       options.Filename = _loggerOptions.Filename;
-                   });
+                   logging.AddBasicLogger();
                })
                .ConfigureServices((hostContext, services) =>
                {
@@ -96,7 +88,7 @@ namespace NetcoreConsoleAppDemo
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Error Occured");
+                    Console.WriteLine("==============   Error Occured " + ex.ToString());
                 }
             }
 

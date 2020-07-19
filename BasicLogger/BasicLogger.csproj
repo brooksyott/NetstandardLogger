@@ -13,7 +13,7 @@
     <AssemblyVersion>1.1.2.0</AssemblyVersion>
     <FileVersion>1.1.2.0</FileVersion>
     <PackageReleaseNotes>Support for logging to console</PackageReleaseNotes>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageTags>netstandard, logger, peamel, xamarin forms</PackageTags>
     <PackageId>Peamel.BasicLogger</PackageId>
     <Copyright>MIT</Copyright>

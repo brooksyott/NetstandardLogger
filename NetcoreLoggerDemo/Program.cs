@@ -29,6 +29,7 @@ namespace NetcoreLoggerDemo
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                webBuilder.UseUrls("http://*:5001", "https://*:5002");
             });
     }
 }
