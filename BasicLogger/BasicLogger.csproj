@@ -4,19 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Peamel.BasicLogger</RootNamespace>
     <AssemblyName>PeamelBasicLogger</AssemblyName>
-    <Version>1.4.5</Version>
+    <Version>1.4.6</Version>
     <Authors>Dave Brooks</Authors>
     <Company />
     <Product>BasicLogger</Product>
     <Description>A minimalistic logger.</Description>
     <PackageProjectUrl>https://github.com/brooksyott/BasicLogger</PackageProjectUrl>
-    <AssemblyVersion>1.1.2.0</AssemblyVersion>
-    <FileVersion>1.1.2.0</FileVersion>
+    <AssemblyVersion>1.4.6.0</AssemblyVersion>
+    <FileVersion>1.4.6.0</FileVersion>
     <PackageReleaseNotes>Support for logging to console</PackageReleaseNotes>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>netstandard, logger, peamel, xamarin forms</PackageTags>
     <PackageId>Peamel.BasicLogger</PackageId>
     <Copyright>MIT</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>

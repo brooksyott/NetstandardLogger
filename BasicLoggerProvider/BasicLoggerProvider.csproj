@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.4.5</Version>
+    <Version>1.4.6</Version>
     <Authors>Dave Brooks</Authors>
     <Company>Dave Brooks</Company>
     <Product>BasicLogger</Product>
